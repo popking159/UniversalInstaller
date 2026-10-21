@@ -1,7 +1,10 @@
 #!/bin/sh
 # =========================================================================
-# One-liner execution command (Example):
+# Standard Menu Execution:
 # wget -qO - https://raw.githubusercontent.com/popking159/UniversalInstaller/main/menu.sh | /bin/sh
+#
+# Unattended "Install ALL" Execution:
+# wget -qO - https://raw.githubusercontent.com/popking159/UniversalInstaller/main/menu.sh | /bin/sh -s all
 # =========================================================================
 
 # Terminal Colors
@@ -10,6 +13,8 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
 NC='\033[0m' # No Color
+
+AUTO_MODE=0
 
 show_menu() {
     clear
@@ -40,7 +45,7 @@ show_menu() {
 }
 
 install_dependencies() {
-    clear
+    if [ "$AUTO_MODE" -eq 0 ]; then clear; fi
     echo -e "${CYAN}====================================================${NC}"
     echo -e "${CYAN}         INSTALLING ESSENTIAL DEPENDENCIES          ${NC}"
     echo -e "${CYAN}====================================================${NC}"
@@ -48,7 +53,7 @@ install_dependencies() {
     # Check for opkg
     if ! command -v opkg >/dev/null 2>&1; then
         echo -e "\n${RED}[ERROR] opkg package manager not found! Cannot install dependencies.${NC}"
-        read -p "Press [Enter] to return to the menu..." dummy </dev/tty
+        if [ "$AUTO_MODE" -eq 0 ]; then read -p "Press [Enter] to return to the menu..." dummy </dev/tty; fi
         return
     fi
 
@@ -76,15 +81,15 @@ install_dependencies() {
         enigma2-plugin-extensions-oaweather
 
     echo -e "\n${GREEN}[OK] Dependency installation finished.${NC}"
-    read -p "Press [Enter] to return to the menu..." dummy </dev/tty
+    if [ "$AUTO_MODE" -eq 0 ]; then read -p "Press [Enter] to return to the menu..." dummy </dev/tty; fi
 }
 
 run_installer() {
     URL="$1"
-    echo -e "\n${CYAN}[INFO] Starting installation...${NC}\n"
+    echo -e "\n${CYAN}[INFO] Fetching and running: $URL${NC}"
     wget -qO - "$URL" | /bin/sh
-    echo -e "\n${CYAN}[INFO] Process finished.${NC}"
-    read -p "Press [Enter] to return to the menu..." dummy </dev/tty
+    echo -e "${GREEN}[OK] Process finished for this plugin.${NC}\n"
+    if [ "$AUTO_MODE" -eq 0 ]; then read -p "Press [Enter] to return to the menu..." dummy </dev/tty; fi
 }
 
 restart_gui() {
@@ -101,30 +106,70 @@ restart_gui() {
     exit 0
 }
 
-while true; do
-    show_menu
-    read -p "Enter your choice [0-14, R]: " choice </dev/tty
+# =========================================================================
+# MAIN LOGIC
+# =========================================================================
 
-    case "$choice" in
-        1) install_dependencies ;;
-        2) run_installer "https://raw.githubusercontent.com/popking159/abls/refs/heads/main/myinstaller.sh" ;;
-        3) run_installer "https://raw.githubusercontent.com/popking159/buttonpatcher/refs/heads/main/myinstaller.sh" ;;
-        4) run_installer "https://raw.githubusercontent.com/popking159/ArabicSavior/refs/heads/main/myinstaller.sh" ;;
-        5) run_installer "https://raw.githubusercontent.com/popking159/novalerdownloader/refs/heads/main/myinstaller.sh" ;;
-        6) run_installer "https://raw.githubusercontent.com/popking159/audioselectionpatcher/refs/heads/main/myinstaller.sh" ;;
-        7) run_installer "https://raw.githubusercontent.com/popking159/mywebuicontroller/refs/heads/main/myinstaller.sh" ;;
-        8) run_installer "https://raw.githubusercontent.com/popking159/myhits/refs/heads/main/myinstaller.sh" ;;
-        9) run_installer "https://raw.githubusercontent.com/popking159/EmuInstaller/refs/heads/main/myinstaller.sh" ;;
-        10) run_installer "https://raw.githubusercontent.com/popking159/QuranKareem/refs/heads/main/myinstaller.sh" ;;
-        11) run_installer "https://raw.githubusercontent.com/popking159/cacheflush/refs/heads/main/myinstaller.sh" ;;
-        12) run_installer "https://raw.githubusercontent.com/popking159/customchannelselection/refs/heads/main/myinstaller.sh" ;;
-        13) run_installer "https://raw.githubusercontent.com/popking159/ipstreamer/refs/heads/main/myinstaller.sh" ;;
-        14) run_installer "https://raw.githubusercontent.com/popking159/SubsSupportPro/refs/heads/main/myinstaller.sh" ;;
-        r|R) restart_gui ;;
-        0) echo -e "\n${GREEN}Exiting... Have a great day!${NC}\n"; exit 0 ;;
-        *) 
-            echo -e "\n${RED}[ERROR] Invalid option. Please try again.${NC}"
-            sleep 1
-            ;;
-    esac
-done
+# Check if the user passed 'all' or '--all' as an argument
+if [ "$1" = "all" ] || [ "$1" = "--all" ]; then
+    AUTO_MODE=1
+    clear
+    echo -e "${GREEN}====================================================${NC}"
+    echo -e "${GREEN}      INITIATING UNATTENDED AUTO-INSTALLATION       ${NC}"
+    echo -e "${GREEN}====================================================${NC}"
+    sleep 2
+
+    # 1. Install dependencies first
+    install_dependencies
+    
+    # 2. Run all plugin installers sequentially
+    run_installer "https://raw.githubusercontent.com/popking159/abls/refs/heads/main/myinstaller.sh"
+    run_installer "https://raw.githubusercontent.com/popking159/buttonpatcher/refs/heads/main/myinstaller.sh"
+    run_installer "https://raw.githubusercontent.com/popking159/ArabicSavior/refs/heads/main/myinstaller.sh"
+    run_installer "https://raw.githubusercontent.com/popking159/novalerdownloader/refs/heads/main/myinstaller.sh"
+    run_installer "https://raw.githubusercontent.com/popking159/audioselectionpatcher/refs/heads/main/myinstaller.sh"
+    run_installer "https://raw.githubusercontent.com/popking159/mywebuicontroller/refs/heads/main/myinstaller.sh"
+    run_installer "https://raw.githubusercontent.com/popking159/myhits/refs/heads/main/myinstaller.sh"
+    run_installer "https://raw.githubusercontent.com/popking159/EmuInstaller/refs/heads/main/myinstaller.sh"
+    run_installer "https://raw.githubusercontent.com/popking159/QuranKareem/refs/heads/main/myinstaller.sh"
+    run_installer "https://raw.githubusercontent.com/popking159/cacheflush/refs/heads/main/myinstaller.sh"
+    run_installer "https://raw.githubusercontent.com/popking159/customchannelselection/refs/heads/main/myinstaller.sh"
+    run_installer "https://raw.githubusercontent.com/popking159/ipstreamer/refs/heads/main/myinstaller.sh"
+    run_installer "https://raw.githubusercontent.com/popking159/SubsSupportPro/refs/heads/main/myinstaller.sh"
+
+    # 3. Restart GUI automatically at the end
+    echo -e "${GREEN}====================================================${NC}"
+    echo -e "${GREEN}      ALL PLUGINS INSTALLED SUCCESSFULLY!           ${NC}"
+    echo -e "${GREEN}====================================================${NC}"
+    restart_gui
+
+else
+    # Standard Interactive Mode
+    while true; do
+        show_menu
+        read -p "Enter your choice [0-14, R]: " choice </dev/tty
+
+        case "$choice" in
+            1) install_dependencies ;;
+            2) run_installer "https://raw.githubusercontent.com/popking159/abls/refs/heads/main/myinstaller.sh" ;;
+            3) run_installer "https://raw.githubusercontent.com/popking159/buttonpatcher/refs/heads/main/myinstaller.sh" ;;
+            4) run_installer "https://raw.githubusercontent.com/popking159/ArabicSavior/refs/heads/main/myinstaller.sh" ;;
+            5) run_installer "https://raw.githubusercontent.com/popking159/novalerdownloader/refs/heads/main/myinstaller.sh" ;;
+            6) run_installer "https://raw.githubusercontent.com/popking159/audioselectionpatcher/refs/heads/main/myinstaller.sh" ;;
+            7) run_installer "https://raw.githubusercontent.com/popking159/mywebuicontroller/refs/heads/main/myinstaller.sh" ;;
+            8) run_installer "https://raw.githubusercontent.com/popking159/myhits/refs/heads/main/myinstaller.sh" ;;
+            9) run_installer "https://raw.githubusercontent.com/popking159/EmuInstaller/refs/heads/main/myinstaller.sh" ;;
+            10) run_installer "https://raw.githubusercontent.com/popking159/QuranKareem/refs/heads/main/myinstaller.sh" ;;
+            11) run_installer "https://raw.githubusercontent.com/popking159/cacheflush/refs/heads/main/myinstaller.sh" ;;
+            12) run_installer "https://raw.githubusercontent.com/popking159/customchannelselection/refs/heads/main/myinstaller.sh" ;;
+            13) run_installer "https://raw.githubusercontent.com/popking159/ipstreamer/refs/heads/main/myinstaller.sh" ;;
+            14) run_installer "https://raw.githubusercontent.com/popking159/SubsSupportPro/refs/heads/main/myinstaller.sh" ;;
+            r|R) restart_gui ;;
+            0) echo -e "\n${GREEN}Exiting... Have a great day!${NC}\n"; exit 0 ;;
+            *) 
+                echo -e "\n${RED}[ERROR] Invalid option. Please try again.${NC}"
+                sleep 1
+                ;;
+        esac
+    done
+fi

@@ -31,6 +31,8 @@ show_menu() {
     echo -e " ${YELLOW}10)${NC} QuranKareem"
     echo -e " ${YELLOW}11)${NC} CacheFlush"
     echo -e " ${YELLOW}12)${NC} CustomChannelSelection"
+    echo -e " ${YELLOW}13)${NC} IPStreamer"
+    echo -e " ${YELLOW}14)${NC} SubsSupportPro"
     echo ""
     echo -e "  ${RED}R)${NC} Restart Enigma2 GUI (Apply Changes)"
     echo -e "  ${RED}0)${NC} Exit"
@@ -101,7 +103,7 @@ restart_gui() {
 
 while true; do
     show_menu
-    read -p "Enter your choice [0-12, R]: " choice
+    read -p "Enter your choice [0-14, R]: " choice
 
     case "$choice" in
         1) install_dependencies ;;
@@ -116,6 +118,8 @@ while true; do
         10) run_installer "https://raw.githubusercontent.com/popking159/QuranKareem/refs/heads/main/myinstaller.sh" ;;
         11) run_installer "https://raw.githubusercontent.com/popking159/cacheflush/refs/heads/main/myinstaller.sh" ;;
         12) run_installer "https://raw.githubusercontent.com/popking159/customchannelselection/refs/heads/main/myinstaller.sh" ;;
+        13) run_installer "https://raw.githubusercontent.com/popking159/ipstreamer/refs/heads/main/myinstaller.sh" ;;
+        14) run_installer "https://raw.githubusercontent.com/popking159/SubsSupportPro/refs/heads/main/myinstaller.sh" ;;
         r|R) restart_gui ;;
         0) echo -e "\n${GREEN}Exiting... Have a great day!${NC}\n"; exit 0 ;;
         *) 

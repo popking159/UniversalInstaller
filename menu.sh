@@ -48,7 +48,7 @@ install_dependencies() {
     # Check for opkg
     if ! command -v opkg >/dev/null 2>&1; then
         echo -e "\n${RED}[ERROR] opkg package manager not found! Cannot install dependencies.${NC}"
-        read -p "Press [Enter] to return to the menu..." dummy
+        read -p "Press [Enter] to return to the menu..." dummy </dev/tty
         return
     fi
 
@@ -76,7 +76,7 @@ install_dependencies() {
         enigma2-plugin-extensions-oaweather
 
     echo -e "\n${GREEN}[OK] Dependency installation finished.${NC}"
-    read -p "Press [Enter] to return to the menu..." dummy
+    read -p "Press [Enter] to return to the menu..." dummy </dev/tty
 }
 
 run_installer() {
@@ -84,7 +84,7 @@ run_installer() {
     echo -e "\n${CYAN}[INFO] Starting installation...${NC}\n"
     wget -qO - "$URL" | /bin/sh
     echo -e "\n${CYAN}[INFO] Process finished.${NC}"
-    read -p "Press [Enter] to return to the menu..." dummy
+    read -p "Press [Enter] to return to the menu..." dummy </dev/tty
 }
 
 restart_gui() {
@@ -103,7 +103,7 @@ restart_gui() {
 
 while true; do
     show_menu
-    read -p "Enter your choice [0-14, R]: " choice
+    read -p "Enter your choice [0-14, R]: " choice </dev/tty
 
     case "$choice" in
         1) install_dependencies ;;

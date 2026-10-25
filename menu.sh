@@ -38,6 +38,8 @@ show_menu() {
     echo -e " ${YELLOW}12)${NC} CustomChannelSelection"
     echo -e " ${YELLOW}13)${NC} IPStreamer"
     echo -e " ${YELLOW}14)${NC} SubsSupportPro"
+    echo -e " ${YELLOW}15)${NC} xtraEvent"
+    echo -e " ${YELLOW}16)${NC} MyStreamer"
     echo ""
     echo -e "  ${RED}R)${NC} Restart Enigma2 GUI (Apply Changes)"
     echo -e "  ${RED}0)${NC} Exit"
@@ -136,6 +138,8 @@ if [ "$1" = "all" ] || [ "$1" = "--all" ]; then
     run_installer "https://raw.githubusercontent.com/popking159/customchannelselection/refs/heads/main/myinstaller.sh"
     run_installer "https://raw.githubusercontent.com/popking159/ipstreamer/refs/heads/main/myinstaller.sh"
     run_installer "https://raw.githubusercontent.com/popking159/SubsSupportPro/refs/heads/main/myinstaller.sh"
+    run_installer "https://raw.githubusercontent.com/popking159/xtraeventplugin/refs/heads/main/myinstaller.sh"
+    run_installer "https://raw.githubusercontent.com/popking159/MyStreamer/refs/heads/main/myinstaller.sh"
 
     # 3. Restart GUI automatically at the end
     echo -e "${GREEN}====================================================${NC}"
@@ -147,7 +151,7 @@ else
     # Standard Interactive Mode
     while true; do
         show_menu
-        read -p "Enter your choice [0-14, R]: " choice </dev/tty
+        read -p "Enter your choice [0-16, R]: " choice </dev/tty
 
         case "$choice" in
             1) install_dependencies ;;
@@ -164,6 +168,8 @@ else
             12) run_installer "https://raw.githubusercontent.com/popking159/customchannelselection/refs/heads/main/myinstaller.sh" ;;
             13) run_installer "https://raw.githubusercontent.com/popking159/ipstreamer/refs/heads/main/myinstaller.sh" ;;
             14) run_installer "https://raw.githubusercontent.com/popking159/SubsSupportPro/refs/heads/main/myinstaller.sh" ;;
+            15) run_installer "https://raw.githubusercontent.com/popking159/xtraeventplugin/refs/heads/main/myinstaller.sh" ;;
+            16) run_installer "https://raw.githubusercontent.com/popking159/MyStreamer/refs/heads/main/myinstaller.sh" ;;
             r|R) restart_gui ;;
             0) echo -e "\n${GREEN}Exiting... Have a great day!${NC}\n"; exit 0 ;;
             *) 

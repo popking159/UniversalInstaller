@@ -140,7 +140,7 @@ if [ "$1" = "all" ] || [ "$1" = "--all" ]; then
     run_installer "https://raw.githubusercontent.com/popking159/ipstreamer/refs/heads/main/myinstaller.sh"
     run_installer "https://raw.githubusercontent.com/popking159/SubsSupportPro/refs/heads/main/myinstaller.sh"
     run_installer "https://raw.githubusercontent.com/popking159/xtraeventplugin/refs/heads/main/myinstaller.sh"
-    run_installer "https://gitlab.com/popking159/MyStreamer/-/raw/main/myinstaller.sh"
+    run_installer "https://raw.githubusercontent.com/popking159/MyStreamer/refs/heads/main/myinstaller.sh"
     run_installer "https://raw.githubusercontent.com/popking159/LukaTV/refs/heads/main/myinstaller.sh"
 
     # 3. Restart GUI automatically at the end

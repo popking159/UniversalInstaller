@@ -171,7 +171,7 @@ else
             13) run_installer "https://raw.githubusercontent.com/popking159/ipstreamer/refs/heads/main/myinstaller.sh" ;;
             14) run_installer "https://raw.githubusercontent.com/popking159/SubsSupportPro/refs/heads/main/myinstaller.sh" ;;
             15) run_installer "https://raw.githubusercontent.com/popking159/xtraeventplugin/refs/heads/main/myinstaller.sh" ;;
-            16) run_installer "https://gitlab.com/popking159/MyStreamer/-/raw/main/myinstaller.sh" ;;
+            16) run_installer "https://raw.githubusercontent.com/popking159/MyStreamer/refs/heads/main/myinstaller.sh" ;;
             17) run_installer "https://raw.githubusercontent.com/popking159/LukaTV/refs/heads/main/myinstaller.sh" ;;
             r|R) restart_gui ;;
             0) echo -e "\n${GREEN}Exiting... Have a great day!${NC}\n"; exit 0 ;;
